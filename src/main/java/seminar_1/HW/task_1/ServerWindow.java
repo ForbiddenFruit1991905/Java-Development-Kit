@@ -18,9 +18,9 @@ public class ServerWindow extends JFrame {
      */
 
     private static final int X = 400;
-    private static final int Y = 500;
-    private static final int W = 350;
-    private static final int H = 450;
+    private static final int Y = 400;
+    private static final int W = 300;
+    private static final int H = 300;
     private boolean isServerWorking;
 
     JButton btnStart = new JButton("Start");
@@ -42,8 +42,8 @@ public class ServerWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!isServerWorking) {
-                    System.out.println("Server is running");
-                    log.append("Server is running\n");
+                    System.out.println("Server is running...");
+                    log.append("Server is running...\n");
                     isServerWorking = true; // Обновляем значение переменной на true
                 }
             }
@@ -52,8 +52,8 @@ public class ServerWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isServerWorking) {
-                    System.out.println("Server is stopped");
-                    log.append("Server is stopped\n");
+                    System.out.println("Server is stopped...");
+                    log.append("Server is stopped...\n");
                     isServerWorking = false; // Обновляем значение переменной на false
                 }
             }
