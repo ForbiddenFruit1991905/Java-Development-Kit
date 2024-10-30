@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 public class GameSettings extends JFrame {
     private static final int WINDOW_HEIGHT = 350;
     private static final int WINDOW_WIDTH = 230;
-//    private JButton btnStart;
     static public int sliderSizeValue = 3;
     static public int sliderWinValue = 3;
 
@@ -42,23 +41,22 @@ public class GameSettings extends JFrame {
     JLabel labelMode = new JLabel("Выберите режим игры:");
     JRadioButton HVB = new JRadioButton("Человек против Человека", true);
     JRadioButton HVA = new JRadioButton("Человек против Компьютера", false);
-//    ButtonGroup topButtonGroup = new ButtonGroup();
+    ButtonGroup modeGroup = new ButtonGroup(); // ButtonGroup определяет только один из переключаемых компонентов одновременно
     JLabel labelSize = new JLabel(String.format("Выберите размер поля: %d", sliderSizeValue));
     JSlider sliderSize = new JSlider(3, 10, sliderSizeValue);
     JLabel labelWin = new JLabel(String.format("Выберите длину для победы: %d", sliderWinValue));
     JSlider sliderWin = new JSlider(3, 10, sliderWinValue);
     JButton btnStart = new JButton("Запуск новой игры");
     JPanel grid = new JPanel(new GridLayout(9, 1));
-//    JPanel top = new JPanel(new GridLayout(2,1));
     JPanel topButton = new JPanel(new GridLayout(2, 1));
-//    JPanel middle = new JPanel(new GridLayout(2,1));
-//    JPanel bottom = new JPanel(new GridLayout(2,1));
 
     GameSettings(GameWindow gameWindow) {
         setLocationRelativeTo(gameWindow);
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         
         grid.add(labelMode);
+        modeGroup.add(HVB);
+        modeGroup.add(HVA);
         grid.add(HVB);
         grid.add(HVA);
         grid.add(topButton);
@@ -69,26 +67,19 @@ public class GameSettings extends JFrame {
         grid.add(sliderWin);
         grid.add(btnStart);
 
-//        topButtonGroup.add(HVB);
-//        topButtonGroup.add(HVA);
-//        topButton.add(HVB);
-//        topButton.add(HVA);
-//
-//        top.add(labelMode);
-//        top.add(topButton);
-//
-//        top.add(labelMode);
-//        top.add(topButton);
-
         sliderSize.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e){
                 sliderSizeValue = sliderSize.getValue();
                 labelSize.setText(String.format("Установите размер поля: %d", sliderSizeValue));
+                // Обновление максимального значения слайдера длины для победы
+                sliderWin.setMaximum(sliderSizeValue);
+                if (sliderWinValue > sliderSizeValue) {
+                    sliderWinValue = sliderSizeValue;
+                    sliderWin.setValue(sliderWinValue);
+                }
             }
         });
-//        middle.add(labelSize);
-//        middle.add(sliderSize);
 
         sliderWin.addChangeListener(new ChangeListener() {
             @Override
@@ -97,13 +88,6 @@ public class GameSettings extends JFrame {
                 labelWin.setText(String.format("Установите длину для победы: %d", sliderWinValue));
             }
         });
-//        bottom.add(labelWin);
-//        bottom.add(sliderWin);
-
-//        grid.add(top);
-//        grid.add(middle);
-//        grid.add(bottom);
-//        grid.add(btnStart);
 
         btnStart.addActionListener(new ActionListener() {
             @Override
@@ -113,15 +97,5 @@ public class GameSettings extends JFrame {
             }
         });
         add(grid);
-
-//        btnStart.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                setVisible(false);
-//                gameWindow.startNewGame(0, 3, 3, 3);
-//            }
-//        });
-//        add(btnStart);
-        
     }
 }

@@ -8,6 +8,16 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class GameMap extends JPanel {
+    /*
+    Задание 3
+    Задача: В методе обработчика нажатия
+    кнопки необходимо заменить константы
+    в аргументе вызова метода старта игры
+    на текущие показания компонентов
+    (какая радио-кнопка активна, значение
+    слайдера размеров поля, значение
+    слайдера выигрышной длины).
+     */
     private static final Random RANDOM = new Random();
     private static final int HUMAN_DOT = 1;
     private static final int AI_DOT = 2;
