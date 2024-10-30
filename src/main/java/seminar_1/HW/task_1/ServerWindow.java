@@ -29,7 +29,7 @@ public class ServerWindow extends JFrame {
 
 
 
-    ServerWindow() {
+    public ServerWindow() {
         setTitle("Chat group");
         setAlwaysOnTop(true);
         isServerWorking = false;

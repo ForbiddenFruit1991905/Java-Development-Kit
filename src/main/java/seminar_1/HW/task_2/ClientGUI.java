@@ -1,6 +1,7 @@
-package seminar_1.HW.task_1;
+package seminar_1.HW.task_2;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ClientGUI extends JFrame {
     /*
@@ -25,8 +26,45 @@ public class ClientGUI extends JFrame {
      */
     public static final int WIDTH = 400;
     public static final int HEIGHT = 300;
+    private static final JTextArea msgLog = new JTextArea();
 
-    private ServerWindow server;
+    JPanel topFields = new JPanel(new GridLayout(3, 2));
+    JTextField ip = new JTextField("000.0.0.0");
+    JTextField port = new JTextField("8080");
+    JTextField login = new JTextField("v_m");
+    JPasswordField password = new JPasswordField("54321");
+    JButton btnLogin = new JButton("Login");
+
+    JPanel bottomFields = new JPanel(new BorderLayout());
+    JPanel msgField = new JPanel(new BorderLayout());
+    JTextField msg = new JTextField("some message");
+    JButton btnSend = new JButton("Send");
+    
+    public ClientGUI() {
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setSize(WIDTH, HEIGHT);
+        setTitle("Chat group");
+
+        topFields.add(ip);
+        topFields.add(port);
+        topFields.add(login);
+        topFields.add(password);
+        topFields.add(btnLogin);
+        add(topFields, BorderLayout.NORTH);
+
+        msgField.add(msg, BorderLayout.CENTER);
+        msgField.add(btnSend, BorderLayout.EAST);
+        bottomFields.add(msgField, BorderLayout.CENTER);
+        add(bottomFields, BorderLayout.SOUTH);
+
+        msgLog.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(msgLog);
+        add(scrollPane);
+
+        setVisible(true);
+
+    }
 
     
 }
