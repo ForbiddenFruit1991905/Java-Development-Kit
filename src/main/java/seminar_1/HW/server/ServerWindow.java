@@ -1,9 +1,12 @@
-package seminar_1.HW.task_1;
+package seminar_1.HW.server;
+
+import seminar_1.HW.client.ClientGUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 public class ServerWindow extends JFrame {
     /*
@@ -22,14 +25,75 @@ public class ServerWindow extends JFrame {
     private static final int W = 300;
     private static final int H = 300;
     private boolean isServerWorking;
+    public static final String PATH = "src/main/java/seminar_1/HW/log.txt";
+
+    private JList<ClientGUI> clientGUIList;
+    private boolean isConnected = false;
 
     JButton btnStart = new JButton("Start");
     JButton btnStop = new JButton("Stop");
     JTextArea log = new JTextArea();
 
+    public void setConnected(boolean isConnected) {
+        this.isConnected = isConnected;
+    }
 
+    public JList<ClientGUI> getConnectedClients() {
+        return clientGUIList;
+    }
+
+    public void addUser(ClientGUI clientGUI) {
+        if (isConnected) {
+            clientGUIList.add(clientGUI);
+            clientGUI.setConnected(true);
+        }
+    }
+
+    public void exitUser(ClientGUI clientGUI) {
+        if (isConnected) {
+            clientGUIList.remove(clientGUI);
+            clientGUI.setConnected(false);
+        }
+    }
+
+    public void logMessage(String message) {
+        log.append(message + "n");
+        saveLogToFile();
+        readLogFromFile();
+    }
+
+    public void saveLogToFile() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(PATH, true))) {
+            writer.println(log.getText());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readLogFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                log.append(line + "n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public ServerWindow() {
+        clientGUIList = new JList<>();
+        DefaultListModel clientList = new DefaultListModel<>();
+//        clientGUIList.setModel(new DefaultListModel<>()); // Устанавливаем модель для JList
+        clientList.addElement("Alice");
+        clientList.addElement("Bob");
+        clientList.addElement("Charlie");
+        clientGUIList.setModel(clientList);
+
+
+        JScrollPane listScrollPane = new JScrollPane(clientGUIList); // Добавляем JList в JScrollPane для прокрутки
+        add(listScrollPane, BorderLayout.CENTER); // Добавляем JScrollPane в центральную часть панели
+
         setTitle("Chat group");
         setAlwaysOnTop(true);
         isServerWorking = false;

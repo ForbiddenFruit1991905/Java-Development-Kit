@@ -1,4 +1,6 @@
-package seminar_1.HW.task_2;
+package seminar_1.HW.client;
+
+import seminar_1.HW.server.ServerWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +29,7 @@ public class ClientGUI extends JFrame {
     public static final int WIDTH = 400;
     public static final int HEIGHT = 300;
     private static final JTextArea msgLog = new JTextArea();
+    private ServerWindow serverWindow;
 
     JPanel topFields = new JPanel(new GridLayout(3, 2));
     JTextField ip = new JTextField("000.0.0.0");
@@ -39,8 +42,13 @@ public class ClientGUI extends JFrame {
     JPanel msgField = new JPanel(new BorderLayout());
     JTextField msg = new JTextField("some message");
     JButton btnSend = new JButton("Send");
-    
-    public ClientGUI() {
+
+    public void sendMessage(String message) {
+        serverWindow.logMessage(message);
+    }
+
+    public ClientGUI(ServerWindow serverWindow) {
+        this.serverWindow = serverWindow;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setSize(WIDTH, HEIGHT);
@@ -63,8 +71,5 @@ public class ClientGUI extends JFrame {
         add(scrollPane);
 
         setVisible(true);
-
     }
-
-    
 }
