@@ -19,11 +19,7 @@ public class ServerWindow extends JFrame {
     private boolean isServerWorking;
     public static final String PATH = "src/main/java/seminar_1/HW/log.txt";
 
-//    private DefaultListModel<ClientGUI> connectedClientsModel = new DefaultListModel<>();
-//    private JList<ClientGUI> clientGUIList;
-    private ArrayList<ClientGUI> connectedClientsModel = new ArrayList<>();
-//    private boolean isConnected;
-
+    private final ArrayList<ClientGUI> connectedClientsModel;
     private final JButton btnStart = new JButton("Start");
     private final JButton btnStop = new JButton("Stop");
     private final JTextArea log = new JTextArea();
@@ -33,21 +29,20 @@ public class ServerWindow extends JFrame {
         saveLogToFile();
         readLogFromFile();
     }
-    //TODO если сервер работает,то broadcastMessage, если нет, то сообщение о незапуске сервера
+
     public void broadcastMessage(String message) {
         logMessage(message);
         for (ClientGUI client : connectedClientsModel) {
-            client.sendMessage();
+            client.logMessage(message);
         }
     }
 
     private void msgClientLog(ClientGUI client) {
         try (FileReader fileReader = new FileReader(PATH);
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-//            String line;
-            while ((bufferedReader.readLine()) != null) {
-                //TODO возможно переделать метод logMessage
-                client.sendMessage();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                client.logMessage(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,8 +88,6 @@ public class ServerWindow extends JFrame {
                 if (!isServerWorking) {
                     log.append("Server is running...\n");
                     isServerWorking = true;
-//                    saveLogToFile();
-//                    readLogFromFile();
                 }
             }
         });
@@ -104,9 +97,6 @@ public class ServerWindow extends JFrame {
                 if (isServerWorking) {
                     log.append("Server is stopped.\n");
                     isServerWorking = false;
-//                    saveLogToFile();
-//                    readLogFromFile();
-//                    resetClientPanels();
                 }
             }
         });
@@ -145,27 +135,6 @@ public class ServerWindow extends JFrame {
             msgClientLog(clientGUI);
         }
     }
-
-    private void resetClientPanels() {
-        for (ClientGUI client : connectedClientsModel) {
-            client.resetPanelTop();
-        }
-    }
-     /*
-    public boolean addUser(ClientGUI clientGUI) {
-        if (!isConnected) {
-            return false;
-        }
-        connectedClientsModel.add(clientGUI);
-        return true;
-    }
-
-    public void exitUser(ClientGUI clientGUI) {
-        if (!isConnected || clientGUI != null) {
-            connectedClientsModel.remove(clientGUI);
-        }
-    }
-    */
 
 }
 

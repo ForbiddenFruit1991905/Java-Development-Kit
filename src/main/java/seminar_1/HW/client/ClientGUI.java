@@ -32,13 +32,12 @@ public class ClientGUI extends JFrame {
     public static final int WIDTH = 400;
     public static final int HEIGHT = 300;
     private final JTextArea msgLog = new JTextArea();
-    private ServerWindow serverWindow;
+    private final ServerWindow serverWindow;
     private boolean loginConnection;
 
     JPanel topFields = new JPanel(new GridLayout(3, 2));
     JTextField ip = new JTextField("000.0.0.0");
     JTextField port = new JTextField("8080");
-//    JTextField login = new JTextField("v_m");
     JPasswordField password = new JPasswordField("54321");
     JButton btnLogin = new JButton("Login");
 
@@ -55,13 +54,14 @@ public class ClientGUI extends JFrame {
         if(loginConnection == false) {
             msgLog.append("User is not connected.\n");
             return;
-        } else if (msg.getText().isEmpty()) {
-            msgLog.append("Message cannot be empty");
+        }
+        if (msg.getText().isEmpty()) {
+            msgLog.append("Message cannot be empty.\n");
             return;
         }
         LocalDateTime localDateTime = LocalDateTime.now();
         String selectedUser = (String) login_list.getSelectedItem();
-        String message = "Date: " + localDateTime + " user: " + selectedUser + ": " + msgLog.getText();
+        String message = "Date: " + localDateTime + " user: " + selectedUser + ": " + msg.getText();
         if (serverWindow.isServerWorking()) {
             msg.setText("");
             serverWindow.broadcastMessage(message);
@@ -127,10 +127,8 @@ public class ClientGUI extends JFrame {
         setVisible(true);
     }
 
-    public void resetPanelTop() {
-        topFields.setVisible(true);
-        msg.setEnabled(false);
+    public void logMessage(String msg) {
+        msgLog.append(msg + "\n");
     }
-
 
 }
