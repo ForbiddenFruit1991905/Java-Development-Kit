@@ -4,6 +4,8 @@ import seminar_1.HW.server.ServerWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ClientGUI extends JFrame {
     /*
@@ -34,9 +36,13 @@ public class ClientGUI extends JFrame {
     JPanel topFields = new JPanel(new GridLayout(3, 2));
     JTextField ip = new JTextField("000.0.0.0");
     JTextField port = new JTextField("8080");
-    JTextField login = new JTextField("v_m");
+//    JTextField login = new JTextField("v_m");
     JPasswordField password = new JPasswordField("54321");
     JButton btnLogin = new JButton("Login");
+
+    private static final String[] login ={"V_M", "D_S", "S_D"};
+
+    private final JComboBox login_list = new JComboBox<>(login); // JComboBox - для выпадающего списка
 
     JPanel bottomFields = new JPanel(new BorderLayout());
     JPanel msgField = new JPanel(new BorderLayout());
@@ -56,7 +62,7 @@ public class ClientGUI extends JFrame {
 
         topFields.add(ip);
         topFields.add(port);
-        topFields.add(login);
+        topFields.add(login_list);
         topFields.add(password);
         topFields.add(btnLogin);
         add(topFields, BorderLayout.NORTH);
@@ -69,7 +75,21 @@ public class ClientGUI extends JFrame {
         msgLog.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(msgLog);
         add(scrollPane);
-
+        msgLog.setEnabled(false);
         setVisible(true);
+
+        btnLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (serverWindow.isServerWorking()) {
+                    topFields.setVisible(false);
+                    msg.setEnabled(true);
+                    btnSend.setEnabled(true);
+                    msgLog.append("Successful user connection\n");
+                    serverWindow.connectUser((String) login_list.getSelectedItem());
+                    serverWindow.registerClient(ClientGUI.this);
+                }
+            }
+        });
     }
 }

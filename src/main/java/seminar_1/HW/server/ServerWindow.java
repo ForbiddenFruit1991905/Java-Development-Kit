@@ -1,3 +1,4 @@
+
 package seminar_1.HW.server;
 
 import seminar_1.HW.client.ClientGUI;
@@ -9,16 +10,6 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 public class ServerWindow extends JFrame {
-    /*
-    Задача: Создать простейшее окно управления сервером
-    (по сути, любым), содержащее две кнопки (JButton) –
-    запустить сервер и остановить сервер. Кнопки должны
-    просто логировать нажатие (имитировать запуск и остановку
-    сервера, соответственно) и выставлять внутри интерфейса
-    соответствующее булево isServerWorking.
-    *Добавить на окно компонент JtextArea и выводить
-    сообщения сервера в него, а не в терминал.
-     */
 
     private static final int X = 400;
     private static final int Y = 400;
@@ -27,6 +18,7 @@ public class ServerWindow extends JFrame {
     private boolean isServerWorking;
     public static final String PATH = "src/main/java/seminar_1/HW/log.txt";
 
+    private DefaultListModel<ClientGUI> connectedClientsModel = new DefaultListModel<>();
     private JList<ClientGUI> clientGUIList;
     private boolean isConnected = false;
 
@@ -34,30 +26,22 @@ public class ServerWindow extends JFrame {
     JButton btnStop = new JButton("Stop");
     JTextArea log = new JTextArea();
 
-    public void setConnected(boolean isConnected) {
-        this.isConnected = isConnected;
-    }
-
-    public JList<ClientGUI> getConnectedClients() {
-        return clientGUIList;
-    }
-
-    public void addUser(ClientGUI clientGUI) {
-        if (isConnected) {
-            clientGUIList.add(clientGUI);
-            clientGUI.setConnected(true);
+    public boolean addUser(ClientGUI clientGUI) {
+        if (!isConnected) {
+            return false;
         }
+        connectedClientsModel.addElement(clientGUI);
+        return true;
     }
 
     public void exitUser(ClientGUI clientGUI) {
-        if (isConnected) {
-            clientGUIList.remove(clientGUI);
-            clientGUI.setConnected(false);
+        if (!isConnected || clientGUI != null) {
+            connectedClientsModel.removeElement(clientGUI);
         }
     }
 
     public void logMessage(String message) {
-        log.append(message + "n");
+        log.append(message + "\n");
         saveLogToFile();
         readLogFromFile();
     }
@@ -74,7 +58,7 @@ public class ServerWindow extends JFrame {
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                log.append(line + "n");
+                log.append(line + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,33 +66,25 @@ public class ServerWindow extends JFrame {
     }
 
     public ServerWindow() {
-        clientGUIList = new JList<>();
-        DefaultListModel clientList = new DefaultListModel<>();
-//        clientGUIList.setModel(new DefaultListModel<>()); // Устанавливаем модель для JList
-        clientList.addElement("Alice");
-        clientList.addElement("Bob");
-        clientList.addElement("Charlie");
-        clientGUIList.setModel(clientList);
+        clientGUIList = new JList<>(connectedClientsModel);
 
-
-        JScrollPane listScrollPane = new JScrollPane(clientGUIList); // Добавляем JList в JScrollPane для прокрутки
-        add(listScrollPane, BorderLayout.CENTER); // Добавляем JScrollPane в центральную часть панели
+        JScrollPane listScrollPane = new JScrollPane(clientGUIList);
+        add(listScrollPane, BorderLayout.CENTER);
 
         setTitle("Chat group");
         setAlwaysOnTop(true);
-        isServerWorking = false;
+//        isServerWorking = false;
 
-        log.setEditable(false); // Чтобы запретить редактирование
-        JScrollPane scrollPane = new JScrollPane(log); // Добавление прокрутки для JTextArea
+        log.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(log);
         add(scrollPane);
 
         btnStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!isServerWorking) {
-                    System.out.println("Server is running...");
-                    log.append("Server is running...\n");
-                    isServerWorking = true; // Обновляем значение переменной на true
+                    logMessage("Server is running...\n");
+                    isServerWorking = true;
                 }
             }
         });
@@ -116,19 +92,56 @@ public class ServerWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isServerWorking) {
-                    System.out.println("Server is stopped...");
-                    log.append("Server is stopped...\n");
-                    isServerWorking = false; // Обновляем значение переменной на false
+                    logMessage("Server is stopped.\n");
+                    isServerWorking = false;
                 }
             }
         });
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setBounds(X, Y, W, H);
-        setResizable(false);
-        setLayout(new GridLayout(1, 2));
-        add(btnStart);
-        add(btnStop);
+        //Панелька кнопок
+        JPanel btnPanel = new JPanel();
+        btnPanel.add(btnStart);
+        btnPanel.add(btnStop);
+
+        add(btnPanel, BorderLayout.NORTH);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(W, H);
+        setLocation(X, Y);
         setVisible(true);
+
+
     }
+
+    public boolean isServerWorking() {
+        return isServerWorking;
+    }
+
+    public void connectUser(String selectedItem) {
+    }
+
+    public void registerClient(ClientGUI clientGUI) {
+        if (!connectedClientsModel.contains(clientGUI)) {
+            connectedClientsModel.addElement(clientGUI);
+            msgClientLog(clientGUI);
+        }
+    }
+
+    private void msgClientLog(ClientGUI client) {
+        try (FileReader fileReader = new FileReader(PATH);
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                //TODO возможно переделать метод logMessage
+                logMessage(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+//    public static void main(String[] args) {
+//        new ServerWindow();
+//    }
 }
+
