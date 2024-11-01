@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 
 public class ClientGUI extends JFrame {
     /*
@@ -30,8 +31,9 @@ public class ClientGUI extends JFrame {
      */
     public static final int WIDTH = 400;
     public static final int HEIGHT = 300;
-    private static final JTextArea msgLog = new JTextArea();
+    private final JTextArea msgLog = new JTextArea();
     private ServerWindow serverWindow;
+    private boolean loginConnection;
 
     JPanel topFields = new JPanel(new GridLayout(3, 2));
     JTextField ip = new JTextField("000.0.0.0");
@@ -46,11 +48,26 @@ public class ClientGUI extends JFrame {
 
     JPanel bottomFields = new JPanel(new BorderLayout());
     JPanel msgField = new JPanel(new BorderLayout());
-    JTextField msg = new JTextField("some message");
+    JTextField msg = new JTextField(/*"some message"*/);
     JButton btnSend = new JButton("Send");
 
-    public void sendMessage(String message) {
-        serverWindow.logMessage(message);
+    public void sendMessage() {
+        if(loginConnection == false) {
+            msgLog.append("User is not connected.\n");
+            return;
+        } else if (msg.getText().isEmpty()) {
+            msgLog.append("Message cannot be empty");
+            return;
+        }
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String selectedUser = (String) login_list.getSelectedItem();
+        String message = "Date: " + localDateTime + " user: " + selectedUser + ": " + msgLog.getText();
+        if (serverWindow.isServerWorking()) {
+            msg.setText("");
+            serverWindow.broadcastMessage(message);
+        } else {
+            msgLog.append("Server is not running\n");
+        }
     }
 
     public ClientGUI(ServerWindow serverWindow) {
@@ -75,8 +92,10 @@ public class ClientGUI extends JFrame {
         msgLog.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(msgLog);
         add(scrollPane);
-        msgLog.setEnabled(false);
-        setVisible(true);
+        
+        msg.setEnabled(false);
+
+        loginConnection = false;
 
         btnLogin.addActionListener(new ActionListener() {
             @Override
@@ -86,10 +105,32 @@ public class ClientGUI extends JFrame {
                     msg.setEnabled(true);
                     btnSend.setEnabled(true);
                     msgLog.append("Successful user connection\n");
+                    loginConnection = true;
                     serverWindow.connectUser((String) login_list.getSelectedItem());
                     serverWindow.registerClient(ClientGUI.this);
+                } else {
+                    msgLog.append("Server is not running\n");
                 }
             }
         });
+
+        ActionListener sendActionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO
+                sendMessage();
+            }
+        };
+        msg.addActionListener(sendActionListener);
+        btnSend.addActionListener(sendActionListener);
+
+        setVisible(true);
     }
+
+    public void resetPanelTop() {
+        topFields.setVisible(true);
+        msg.setEnabled(false);
+    }
+
+
 }

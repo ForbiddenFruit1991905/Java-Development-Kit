@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.ArrayList;
 
 public class ServerWindow extends JFrame {
 
@@ -18,32 +19,39 @@ public class ServerWindow extends JFrame {
     private boolean isServerWorking;
     public static final String PATH = "src/main/java/seminar_1/HW/log.txt";
 
-    private DefaultListModel<ClientGUI> connectedClientsModel = new DefaultListModel<>();
-    private JList<ClientGUI> clientGUIList;
-    private boolean isConnected = false;
+//    private DefaultListModel<ClientGUI> connectedClientsModel = new DefaultListModel<>();
+//    private JList<ClientGUI> clientGUIList;
+    private ArrayList<ClientGUI> connectedClientsModel = new ArrayList<>();
+//    private boolean isConnected;
 
-    JButton btnStart = new JButton("Start");
-    JButton btnStop = new JButton("Stop");
-    JTextArea log = new JTextArea();
-
-    public boolean addUser(ClientGUI clientGUI) {
-        if (!isConnected) {
-            return false;
-        }
-        connectedClientsModel.addElement(clientGUI);
-        return true;
-    }
-
-    public void exitUser(ClientGUI clientGUI) {
-        if (!isConnected || clientGUI != null) {
-            connectedClientsModel.removeElement(clientGUI);
-        }
-    }
+    private final JButton btnStart = new JButton("Start");
+    private final JButton btnStop = new JButton("Stop");
+    private final JTextArea log = new JTextArea();
 
     public void logMessage(String message) {
         log.append(message + "\n");
         saveLogToFile();
         readLogFromFile();
+    }
+    //TODO если сервер работает,то broadcastMessage, если нет, то сообщение о незапуске сервера
+    public void broadcastMessage(String message) {
+        logMessage(message);
+        for (ClientGUI client : connectedClientsModel) {
+            client.sendMessage();
+        }
+    }
+
+    private void msgClientLog(ClientGUI client) {
+        try (FileReader fileReader = new FileReader(PATH);
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+//            String line;
+            while ((bufferedReader.readLine()) != null) {
+                //TODO возможно переделать метод logMessage
+                client.sendMessage();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveLogToFile() {
@@ -66,14 +74,14 @@ public class ServerWindow extends JFrame {
     }
 
     public ServerWindow() {
-        clientGUIList = new JList<>(connectedClientsModel);
+        connectedClientsModel = new ArrayList<>();
 
-        JScrollPane listScrollPane = new JScrollPane(clientGUIList);
+        JScrollPane listScrollPane = new JScrollPane();
         add(listScrollPane, BorderLayout.CENTER);
 
         setTitle("Chat group");
         setAlwaysOnTop(true);
-//        isServerWorking = false;
+        isServerWorking = false;
 
         log.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(log);
@@ -83,8 +91,10 @@ public class ServerWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!isServerWorking) {
-                    logMessage("Server is running...\n");
+                    log.append("Server is running...\n");
                     isServerWorking = true;
+//                    saveLogToFile();
+//                    readLogFromFile();
                 }
             }
         });
@@ -92,8 +102,11 @@ public class ServerWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isServerWorking) {
-                    logMessage("Server is stopped.\n");
+                    log.append("Server is stopped.\n");
                     isServerWorking = false;
+//                    saveLogToFile();
+//                    readLogFromFile();
+//                    resetClientPanels();
                 }
             }
         });
@@ -108,40 +121,51 @@ public class ServerWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(W, H);
         setLocation(X, Y);
+        log.setEditable(false);
         setVisible(true);
-
-
     }
 
     public boolean isServerWorking() {
         return isServerWorking;
     }
 
-    public void connectUser(String selectedItem) {
+    public void addUser(ClientGUI user) {
+        connectedClientsModel.add(user)   ;
+    }
+
+    public void connectUser(String userLogin) {
+        if (isServerWorking) {
+            log.append("User: " + userLogin + " is connected to server\n");
+        }
     }
 
     public void registerClient(ClientGUI clientGUI) {
         if (!connectedClientsModel.contains(clientGUI)) {
-            connectedClientsModel.addElement(clientGUI);
+            connectedClientsModel.add(clientGUI);
             msgClientLog(clientGUI);
         }
     }
 
-    private void msgClientLog(ClientGUI client) {
-        try (FileReader fileReader = new FileReader(PATH);
-             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                //TODO возможно переделать метод logMessage
-                logMessage(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void resetClientPanels() {
+        for (ClientGUI client : connectedClientsModel) {
+            client.resetPanelTop();
         }
     }
+     /*
+    public boolean addUser(ClientGUI clientGUI) {
+        if (!isConnected) {
+            return false;
+        }
+        connectedClientsModel.add(clientGUI);
+        return true;
+    }
 
-//    public static void main(String[] args) {
-//        new ServerWindow();
-//    }
+    public void exitUser(ClientGUI clientGUI) {
+        if (!isConnected || clientGUI != null) {
+            connectedClientsModel.remove(clientGUI);
+        }
+    }
+    */
+
 }
 
