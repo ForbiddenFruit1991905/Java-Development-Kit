@@ -30,3 +30,7 @@ Date: 2024-11-01T14:22:53.900658700 user: D_S: Очень добрый день!
 
 Date: 2024-11-01T14:23:53.005851100 user: V_M: :)))
 
+Server is running...
+User: V_M is connected to server
+Date: 24/11/01 14:33:49 user: V_M: hi
+

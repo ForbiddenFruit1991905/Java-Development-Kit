@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ClientGUI extends JFrame {
     /*
@@ -60,8 +61,9 @@ public class ClientGUI extends JFrame {
             return;
         }
         LocalDateTime localDateTime = LocalDateTime.now();
+        // LocalDateTime.now().format(DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss"))
         String selectedUser = (String) login_list.getSelectedItem();
-        String message = "Date: " + localDateTime + " user: " + selectedUser + ": " + msg.getText();
+        String message = "Date: " + localDateTime.now().format(DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss")) + " user: " + selectedUser + ": " + msg.getText();
         if (serverWindow.isServerWorking()) {
             msg.setText("");
             serverWindow.broadcastMessage(message);
