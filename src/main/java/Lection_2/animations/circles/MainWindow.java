@@ -1,9 +1,13 @@
-package Lection_2.animation_circles;
+package Lection_2.animations.circles;
+
+import Lection_2.animations.common.CanvasRepaintListener;
+import Lection_2.animations.common.MainCanvas;
+import Lection_2.animations.common.Sprite;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements CanvasRepaintListener {
     private static final int POS_X = 400;
     private static final int POS_Y = 200;
     private static final int WINDOW_WIDTH = 800;
@@ -28,6 +32,7 @@ public class MainWindow extends JFrame {
 
     // Метод для перерисовки канвы (принимает от канвы ряд параметров и распределяет
     // их по методам обновления и рендеринга.)
+    @Override
     public void onDrawFrame(MainCanvas canvas, Graphics g, float deltaTime) {
         update(canvas, deltaTime);
         render(canvas, g);

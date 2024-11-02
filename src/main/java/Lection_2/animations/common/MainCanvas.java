@@ -1,14 +1,16 @@
-package Lection_2.animation_circles;
+package Lection_2.animations.common;
+
+import Lection_2.animations.circles.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainCanvas extends JPanel {
-    private final MainWindow controller;
+//    private final MainWindow controller;
+    private final CanvasRepaintListener controller;
     private long lastFrameTime;
-    
 
-    MainCanvas(MainWindow controller){
+    public MainCanvas(CanvasRepaintListener controller){
         setBackground(Color.BLUE);
         this.controller = controller;
         lastFrameTime = System.nanoTime();

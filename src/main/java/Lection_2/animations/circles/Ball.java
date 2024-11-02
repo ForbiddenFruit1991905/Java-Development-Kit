@@ -1,6 +1,7 @@
-package Lection_2.animation_circles;
+package Lection_2.animations.circles;
 
-import seminar_1.HW.Main;
+import Lection_2.animations.common.MainCanvas;
+import Lection_2.animations.common.Sprite;
 
 import java.awt.*;
 import java.util.Random;
@@ -25,7 +26,7 @@ public class Ball extends Sprite {
     рендерилась.
      */
     @Override
-    void update(MainCanvas canvas, float deltaTime) {
+    public void update(MainCanvas canvas, float deltaTime) {
         x += vX * deltaTime;
         y += vY * deltaTime;
 
@@ -50,7 +51,7 @@ public class Ball extends Sprite {
     }
 
     @Override
-    void render(MainCanvas canvas, Graphics g) {
+    public void render(MainCanvas canvas, Graphics g) {
         g.setColor(color);
         g.fillOval((int) getLeft(), (int) getTop(),
                 (int) getWidth(), (int) getHeight());
