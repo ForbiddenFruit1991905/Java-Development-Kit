@@ -1,4 +1,4 @@
-package Lection_2.Example_of_implementation;
+package Lection_2.Example_of_implementation_and_Exceptional;
 
 public interface Human {
     // Поскольку все методы всегда публичные,

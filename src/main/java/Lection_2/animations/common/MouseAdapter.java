@@ -45,7 +45,5 @@ public class MouseAdapter implements MouseListener {
 
             }
         });
-//        m.mouseDown();
-//        m.mouseUp();
     }
 }
