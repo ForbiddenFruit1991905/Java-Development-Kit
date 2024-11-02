@@ -8,6 +8,7 @@ public abstract class Sprite {
     protected float halfWidth;
     protected float halfHeight;
 
+    // Абстрактный рисуемый объект – спрайт
     protected float getLeft() { return x - halfWidth; }
     protected void setLeft(float left) { x = left + halfWidth; }
     protected float getRight() { return x + halfWidth; }
