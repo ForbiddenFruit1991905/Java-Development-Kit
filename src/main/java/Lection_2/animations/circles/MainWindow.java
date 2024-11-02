@@ -6,8 +6,10 @@ import Lection_2.animations.common.Sprite;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class MainWindow extends JFrame implements CanvasRepaintListener {
+public class MainWindow extends JFrame implements CanvasRepaintListener, MouseListener {
     private static final int POS_X = 400;
     private static final int POS_Y = 200;
     private static final int WINDOW_WIDTH = 800;
@@ -26,6 +28,7 @@ public class MainWindow extends JFrame implements CanvasRepaintListener {
         }
 
         MainCanvas canvas = new MainCanvas(this);
+        canvas.addMouseListener(this);
         add(canvas);
         setVisible(true);
     }
@@ -53,6 +56,20 @@ public class MainWindow extends JFrame implements CanvasRepaintListener {
             sprites[i].render(canvas, g);
         }
     }
+
+    // Пример реализации интерфейса «собой» - MainCanvas canvas = new MainCanvas(this)
+    @Override
+    public void mouseClicked(MouseEvent e) { }
+    @Override
+    public void mousePressed(MouseEvent e) { }
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        System.out.println("Clicked!");
+    }
+    @Override
+    public void mouseEntered(MouseEvent e) { }
+    @Override
+    public void mouseExited(MouseEvent e) { }
 
     public static void main(String[] args) {
         new MainWindow();
