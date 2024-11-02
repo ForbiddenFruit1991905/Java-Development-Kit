@@ -8,7 +8,7 @@
 
 [Рис.1](https://github.com/ForbiddenFruit1991905/Java-Development-Kit/blob/main/src/main/java/seminar_1/HW/1.JPG) - демонстрация запуска приложения;
 
-[Рис.2](https://github.com/ForbiddenFruit1991905/Java-Development-Kit/blob/main/src/main/java/seminar_1/HW/2.JPG) -подключение к серверу (кнопка Start), выбор пользователя и отправка пустого сообщения;
+[Рис.2](https://github.com/ForbiddenFruit1991905/Java-Development-Kit/blob/main/src/main/java/seminar_1/HW/2.JPG) - подключение к серверу (кнопка Start), выбор пользователя и отправка пустого сообщения;
 
 [Рис.3](https://github.com/ForbiddenFruit1991905/Java-Development-Kit/blob/main/src/main/java/seminar_1/HW/3.JPG) - переписка между двумя пользователями и запись в log.txt;
 
