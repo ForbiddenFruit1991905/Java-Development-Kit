@@ -1,4 +1,4 @@
-package Lection_2.animation_circles.Example_of_implementation;
+package Lection_2.Example_of_implementation;
 
 public class Ox implements Bull {
 

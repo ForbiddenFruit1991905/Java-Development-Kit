@@ -1,6 +1,8 @@
-package Lection_2.animation_circles.Example_of_implementation;
+package Lection_2.Example_of_implementation;
 
-public class Minotaurus implements Human, Bull {
+// Реализация множества интерфейсов
+
+public class Minotaurs implements Human, Bull {
 
     @Override
     public void walk() {
