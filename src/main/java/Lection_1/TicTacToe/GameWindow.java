@@ -1,4 +1,4 @@
-package TicTacToe;
+package Lection_1.TicTacToe;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ public class GameWindow extends JFrame {
     public static final int WINDOW_WIDTH = 507;
 //    public static final int WINDOW_POS_X = 300;
 //    public static final int WINDOW_POS_Y = 100;
-    public static final String WINDOW_NAME = "TicTacToe";
+    public static final String WINDOW_NAME = "Lection_1/TicTacToe";
 
     JButton btnStart = new JButton("Start new Game");
     JButton btnExit = new JButton("Exit");
