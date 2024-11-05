@@ -27,18 +27,6 @@ public class FileHandler implements IOFileHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        try (FileReader reader = new FileReader(PATH)){
-//            int c;
-//            while ((c = reader.read()) != -1){
-//                stringBuilder.append((char) c);
-//            }
-//            stringBuilder.delete(stringBuilder.length()-1, stringBuilder.length());
-//            return stringBuilder.toString();
-//        } catch (Exception e){
-//            e.fillInStackTrace();
-//            return null;
-//        }
-//    }
         return message;
     }
 }

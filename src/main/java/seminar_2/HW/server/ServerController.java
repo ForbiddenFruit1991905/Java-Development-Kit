@@ -14,7 +14,8 @@ public class ServerController implements ServerView{
     ArrayList<ClientGUI> connectedClientsModel;
     private final JTextArea log = new JTextArea();
     IOFileHandler fileHandler;
-    
+    private boolean isServerWorking;
+
     public ServerController(IOFileHandler fileHandler) {
         this.fileHandler = fileHandler;
         connectedClientsModel = new ArrayList<>();
@@ -49,7 +50,7 @@ public class ServerController implements ServerView{
     }
 
     public void connectUser(String userLogin) {
-        if (setServerWorking()) {
+        if (isServerWorking) {
             log.append("User: " + userLogin + " is connected to server\n");
         }
     }
@@ -61,8 +62,4 @@ public class ServerController implements ServerView{
         }
     }
 
-    public boolean setServerWorking() {
-        boolean serverWorking = true;
-        return serverWorking;
-    }
 }
