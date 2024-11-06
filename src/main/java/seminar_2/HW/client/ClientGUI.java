@@ -89,12 +89,12 @@ public class ClientGUI extends JFrame {
     }
 
     public void sendMessage() {
-        if(loginConnection == false) {
-            msgLog.append("User is not connected.\n");
+        if(!loginConnection) {
+            logMessage("User is not connected.\n");
             return;
         }
         if (msg.getText().isEmpty()) {
-            msgLog.append("Message cannot be empty.\n");
+            logMessage("Message cannot be empty.\n");
             return;
         }
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -104,7 +104,7 @@ public class ClientGUI extends JFrame {
             msg.setText("");
             serverGUI.server.broadcastMessage(message);
         } else {
-            msgLog.append("Server is not running\n");
+            logMessage("Server is not running\n");
         }
     }
     

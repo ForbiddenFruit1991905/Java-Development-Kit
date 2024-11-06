@@ -14,7 +14,12 @@ public class Main {
         ServerView serverView = new ServerController(fileHandler);
         ServerGUI serverGUI = new ServerGUI(serverView);
 
-        new ClientGUI(serverGUI);
-        new ClientGUI(serverGUI);
+//        new ClientGUI(serverGUI);
+//        new ClientGUI(serverGUI);
+        ServerController serverController = new ServerController(fileHandler);
+        ClientGUI user1= new ClientGUI(serverGUI);
+        ClientGUI user2= new ClientGUI(serverGUI);
+        serverController.addUser(user1);
+        serverController.addUser(user2);
     }
 }

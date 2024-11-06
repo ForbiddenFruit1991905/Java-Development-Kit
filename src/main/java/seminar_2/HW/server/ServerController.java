@@ -49,12 +49,14 @@ public class ServerController implements ServerView{
         }
     }
 
+    @Override
     public void connectUser(String userLogin) {
         if (isServerWorking) {
             log.append("User: " + userLogin + " is connected to server\n");
         }
     }
 
+    @Override
     public void registerClient(ClientGUI clientGUI) {
         if (!connectedClientsModel.contains(clientGUI)) {
             connectedClientsModel.add(clientGUI);
@@ -62,4 +64,7 @@ public class ServerController implements ServerView{
         }
     }
 
+    public void addUser(ClientGUI user) {
+        connectedClientsModel.add(user)   ;
+    }
 }
