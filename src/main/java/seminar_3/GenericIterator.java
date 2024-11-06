@@ -22,4 +22,10 @@ public class GenericIterator<T> implements Iterator {
     public Object next() {
         return list.get(index++);
     }
+
+    @Override
+    public void remove() {
+        list.remove(index - 1); // индекс остается прежним
+        //list.remove(--index); // меняется индекс
+    }
 }
