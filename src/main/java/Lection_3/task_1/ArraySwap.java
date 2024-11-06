@@ -1,4 +1,4 @@
-package Lection_3;
+package Lection_3.task_1;
 
 public class ArraySwap {
     /*
