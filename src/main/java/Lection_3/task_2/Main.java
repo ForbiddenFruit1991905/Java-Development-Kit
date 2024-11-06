@@ -6,6 +6,13 @@ public class Main {
         Apples apple2 = new Apples();
         Oranges orange1 = new Oranges();
 
+//        Box<Fruits> fruitsBox = new Box<>();
+//        fruitsBox.addFruit(new Oranges());
+//        fruitsBox.addFruit(new Apples());
+//        fruitsBox.addFruit(new Apples());
+//        fruitsBox.addFruit(new Apples());
+//        fruitsBox.addFruit(new Apples());
+
         Box<Apples> appleBox1 = new Box<>();
         appleBox1.addFruit(apple1);
         appleBox1.addFruit(apple2);
