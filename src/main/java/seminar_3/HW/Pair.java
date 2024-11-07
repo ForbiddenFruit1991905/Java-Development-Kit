@@ -5,5 +5,31 @@ package seminar_3.HW;
 составляющих пары, а также переопределение метода toString(), возвращающее строковое
 представление пары.
  */
-public class Pair {
+public class Pair  <T, U> {
+    public static void main(String[] args) {
+        Pair<Integer, String> pair = new Pair<>(10, "Hello");
+        System.out.println(pair.toString());
+    }
+
+    private T t;
+    private U u;
+
+    public Pair(T first, U second) {
+        this.t = first;
+        this.u = second;
+    }
+
+    public T getFirst() {
+        return t;
+    }
+
+    public U getSecond() {
+        return u;
+    }
+
+    @Override
+    public String toString() {
+        return getFirst().getClass() + " " + getSecond().getClass();
+    }
+    
 }
