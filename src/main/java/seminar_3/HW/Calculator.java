@@ -15,22 +15,22 @@ public class Calculator {
         System.out.println(divide(a, b));
     }
 
-    public static float sum(int a, float b) {
-        return a + b;
+    public static <T extends Number, U extends Number> float sum(T a, U b) {
+        return a.intValue() + b.floatValue();
     }
 
-    public static float multiply(int a, float b) {
-        return a * b;
+    public static <T extends Number, U extends Number> float multiply(T a, U b) {
+        return a.intValue() * b.floatValue();
     }
 
-    public static float subtract(int a, float b) {
-        return Math.abs(a - b);
+    public static <T extends Number, U extends Number> float subtract(T a, U b) {
+        return Math.abs(a.intValue() - b.floatValue());
     }
 
-    public static float divide(int a, float b) {
-        if (b == 0) {
+    public static <T extends Number, U extends Number> float divide(T a, U b) {
+        if (b.floatValue() == 0) {
             throw new ArithmeticException("Ошибка при делении на ноль");
         }
-        return a / b;
+        return a.intValue() / b.floatValue();
     }
 }
