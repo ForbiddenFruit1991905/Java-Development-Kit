@@ -39,5 +39,6 @@ public class Collections_test {
         // ist.get(1)  O(1)
         // list.set(1, 2)  O(1)
         // list.contains()  O(n)
+        
     }
 }
