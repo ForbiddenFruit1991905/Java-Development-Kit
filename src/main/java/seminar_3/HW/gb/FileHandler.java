@@ -21,7 +21,7 @@ public class FileHandler implements IOFileHandler {
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line).append("n");
+                stringBuilder.append(line).append("\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
