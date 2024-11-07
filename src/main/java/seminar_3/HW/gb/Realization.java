@@ -1,6 +1,7 @@
 package seminar_3.HW.gb;
 
-import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /*
@@ -16,9 +17,10 @@ public class Realization implements IOManager, IOFileHandler {
         realization.addUser("V", 33, "hi");
         realization.addUser("D", 34, "hallo");
         System.out.println(realization);
-        realization.saveLogToFile("Testing saveLogToFile method.");
-        System.out.println(realization.readLogFromFile("Testing readLogFromFile method."));
+        realization.saveLogToFile();
+        System.out.println(realization.readLogFromFile());
     }
+
     private String name;
     private int age;
     private String message;
@@ -47,7 +49,8 @@ public class Realization implements IOManager, IOFileHandler {
         StringBuilder userInformation = new StringBuilder();
         userInformation.append("Users:\n");
         for (Object userInfo : users) {
-            userInformation.append(userInfo).append("\n");
+            userInformation.append(userInfo);
+            userInformation.append("\n");
         }
         return userInformation.toString();
     }
@@ -56,10 +59,11 @@ public class Realization implements IOManager, IOFileHandler {
         this.name = name;
         this.age = age;
         this.message = message;
-        String userInfo = name + " (" + age + " years old): " + message;
-        users.add(userInfo);
-        saveLogToFile(userInfo);
-        readLogFromFile(userInfo);
+        String userInfo = getName() + " (" + getAge() + " years old): " + getMessage();
+
+        FileHandler fileHandler = new FileHandler();
+        fileHandler.setUserInfo(userInfo);
+        fileHandler.saveLogToFile();
     }
 
     @Override
@@ -68,13 +72,14 @@ public class Realization implements IOManager, IOFileHandler {
     }
 
     @Override
-    public String readLogFromFile(String info) {
-        return info;
+    public String readLogFromFile() {
+        FileHandler fileHandler = new FileHandler();
+        return fileHandler.readLogFromFile();
     }
 
     @Override
-    public boolean saveLogToFile(String info) {
-        System.out.println(info);
-        return false;
+    public void saveLogToFile() {
+        FileHandler fileHandler = new FileHandler();
+        fileHandler.readLogFromFile();
     }
 }

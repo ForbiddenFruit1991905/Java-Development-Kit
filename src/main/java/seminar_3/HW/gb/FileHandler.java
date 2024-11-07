@@ -3,22 +3,20 @@ package seminar_3.HW.gb;
 import java.io.*;
 
 public class FileHandler implements IOFileHandler {
-
-    public static String PATH = "src/main/java/seminar_3/HW/gb/users.txt";
+    private static String PATH = "src/main/java/seminar_3/HW/gb/users.txt";
+    private String userInfo;
 
     @Override
-    public boolean saveLogToFile(String info) {
+    public void saveLogToFile() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(PATH, true))) {
-            writer.println(info);
-            return true;
+            writer.println(userInfo);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     @Override
-    public String readLogFromFile(String info) {
+    public String readLogFromFile() {
         StringBuilder stringBuilder = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH))) {
             String line;
@@ -29,6 +27,10 @@ public class FileHandler implements IOFileHandler {
             e.printStackTrace();
         }
         return stringBuilder.toString();
+    }
+
+    public void setUserInfo(String userInfo) {
+        this.userInfo = userInfo;
     }
 }
 

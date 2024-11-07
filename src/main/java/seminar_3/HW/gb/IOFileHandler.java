@@ -5,6 +5,7 @@ package seminar_3.HW.gb;
 сохранение, удаление, получение данных).
  */
 public interface IOFileHandler {
-    String readLogFromFile(String info);
-    boolean saveLogToFile(String info);
+    void saveLogToFile();
+
+    String readLogFromFile();
 }
