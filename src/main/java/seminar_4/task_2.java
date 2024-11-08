@@ -29,7 +29,7 @@ public class task_2 {
 
         sortAscAndDesc(namesHashSet1);
 
-        removeByChar(namesHashSet2, "A");
+        removeByChar(namesHashSet2, 'A');
     }
 
     public static void makeSet(List<String> list) {
@@ -73,8 +73,8 @@ public class task_2 {
                 .forEach(System.out::println);
     }
 
-    public static void removeByChar(Set<String> names, String symbol) {
-        names.removeIf(name -> name.contains(symbol));
+    public static void removeByChar(Set<String> names, char symbol) {
+        names.removeIf(name -> name.contains(String.valueOf(symbol)));
         System.out.println("Элементы, содержащие символ '" + symbol + "', были удалены:");
         names.forEach(System.out::println);
     }
