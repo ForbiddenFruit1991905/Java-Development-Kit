@@ -13,7 +13,7 @@ public class CompareMassives {
         System.out.println(compareArrays(arr1, arr2));
     }
 
-    public static boolean compareArrays(Object[] arr1, Object[] arr2) {
+    public static <T> boolean compareArrays(T[] arr1, T[] arr2) {
         if (arr1.length == arr2.length) {
             for (int i = 0; i < arr1.length; i++) {
                 if (arr1[i].getClass() != arr2[i].getClass()) {
