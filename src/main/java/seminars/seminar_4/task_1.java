@@ -1,4 +1,4 @@
-package seminar_4;
+package seminars.seminar_4;
 
 /*
 Создайте коллекцию мужских и женских имен с помощью

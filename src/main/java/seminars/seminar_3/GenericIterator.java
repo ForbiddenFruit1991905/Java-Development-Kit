@@ -1,4 +1,4 @@
-package seminar_3;
+package seminars.seminar_3;
 
 import java.util.Iterator;
 import java.util.List;

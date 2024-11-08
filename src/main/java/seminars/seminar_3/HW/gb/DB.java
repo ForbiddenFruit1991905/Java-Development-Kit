@@ -1,4 +1,4 @@
-package seminar_3.HW.gb;
+package seminars.seminar_3.HW.gb;
 
 
 import java.io.FileWriter;

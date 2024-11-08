@@ -1,4 +1,4 @@
-package seminar_3.HW;
+package seminars.seminar_3.HW;
 /*
 Напишите обобщенный метод compareArrays(), который принимает два массива и возвращает true,
 если они одинаковые, и false в противном случае.
