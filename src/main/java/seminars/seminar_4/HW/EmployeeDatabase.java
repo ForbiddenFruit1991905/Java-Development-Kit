@@ -27,9 +27,26 @@ public class EmployeeDatabase {
             System.out.println(employee);
         }
 
-        System.out.println("Employees with experience 10 years: " + employeeDatabase.findByWorkExperience(10));
-        System.out.println("Phone number of employee 'V': " + employeeDatabase.findNumberByName("V"));
-        System.out.println("Employee with number 23456: " + employeeDatabase.findEmployeeByNumber(23456));
+//        System.out.println("Employees with experience 10 years: " + employeeDatabase.findByWorkExperience(10));
+        Map<Integer, String> phoneExpMap = employeeDatabase.findByWorkExperience(10);
+        System.out.println("Employees with experience:");
+        for (Map.Entry<Integer, String> entry : phoneExpMap.entrySet()) {
+            System.out.println("Experience: " + entry.getKey() + ", Name: " + entry.getValue());
+        }
+
+//        System.out.println("Phone number of employee 'V': " + employeeDatabase.findNumberByName("V"));
+        Map<String, String> numMap = employeeDatabase.findNumberByName("V");
+        System.out.println("Phone number of employee:");
+        for (Map.Entry<String, String> entry : numMap.entrySet()) {
+            System.out.println("Name: " + entry.getKey() + ", Phone number: " + entry.getValue());
+        }
+
+//        System.out.println("Employee with number 23456: " + employeeDatabase.findEmployeeByNumber(23456));
+        Map<Integer, String> empNumMap = employeeDatabase.findEmployeeByNumber(23456);
+        System.out.println("Employee by employee number:");
+        for (Map.Entry<Integer, String> entry : empNumMap.entrySet()) {
+            System.out.println("Employee number: " + entry.getKey() + ", Name: " + entry.getValue());
+        }
     }
 
     private int employeeNumber;
@@ -100,6 +117,7 @@ public class EmployeeDatabase {
                 newMap.put(employee.getName(), employee.getPhoneNumber());
             }
         }
+        
         return newMap;
         /*
         return employees.stream()
