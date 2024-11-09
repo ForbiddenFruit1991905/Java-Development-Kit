@@ -19,9 +19,10 @@ import java.util.*;
 
 public class EmployeeDatabase {
     public static void main(String[] args) {
-        EmployeeDatabase employeeDatabase = new EmployeeDatabase(12345, "89107777777", "V", 7);
-        employeeDatabase.addEmployee(12345, "89107777777", "V", 7);
+        EmployeeDatabase employeeDatabase = new EmployeeDatabase();
         employeeDatabase.addEmployee(23456, "8916888888", "D", 10);
+        employeeDatabase.addEmployee(12345, "89107777777", "V", 7);
+
 
         for (Object employee : employeeDatabase.getEmployees()) {
             System.out.println(employee);
@@ -52,7 +53,7 @@ public class EmployeeDatabase {
     private int employeeNumber;
     private String phoneNumber;
     private String name;
-    private static int workExperience;
+    private int workExperience;
     private ArrayList employees;
 
     public EmployeeDatabase(int employeeNumber, String phoneNumber, String name, int workExperience) {
@@ -60,6 +61,10 @@ public class EmployeeDatabase {
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.workExperience = workExperience;
+//        employees = new ArrayList();
+    }
+
+    public EmployeeDatabase() {
         employees = new ArrayList();
     }
 
@@ -75,7 +80,7 @@ public class EmployeeDatabase {
         return name;
     }
 
-    public static int getWorkExperience() {
+    public int getWorkExperience() {
         return workExperience;
     }
 
