@@ -22,27 +22,26 @@ public class EmployeeDatabase {
         EmployeeDatabase employeeDatabase = new EmployeeDatabase();
         employeeDatabase.addEmployee(23456, "8916888888", "D", 10);
         employeeDatabase.addEmployee(12345, "89107777777", "V", 7);
+        employeeDatabase.addEmployee(34567, "89158883344", "E", 20);
+        employeeDatabase.addEmployee(45678, "88100007777", "S", 23);
 
-
+        
         for (Object employee : employeeDatabase.getEmployees()) {
             System.out.println(employee);
         }
 
-//        System.out.println("Employees with experience 10 years: " + employeeDatabase.findByWorkExperience(10));
-        Map<Integer, String> phoneExpMap = employeeDatabase.findByWorkExperience(10);
+        Map<Integer, String> phoneExpMap = employeeDatabase.findByWorkExperience(20);
         System.out.println("Employees with experience:");
         for (Map.Entry<Integer, String> entry : phoneExpMap.entrySet()) {
             System.out.println("Experience: " + entry.getKey() + ", Name: " + entry.getValue());
         }
-
-//        System.out.println("Phone number of employee 'V': " + employeeDatabase.findNumberByName("V"));
+        
         Map<String, String> numMap = employeeDatabase.findNumberByName("V");
         System.out.println("Phone number of employee:");
         for (Map.Entry<String, String> entry : numMap.entrySet()) {
             System.out.println("Name: " + entry.getKey() + ", Phone number: " + entry.getValue());
         }
-
-//        System.out.println("Employee with number 23456: " + employeeDatabase.findEmployeeByNumber(23456));
+        
         Map<Integer, String> empNumMap = employeeDatabase.findEmployeeByNumber(23456);
         System.out.println("Employee by employee number:");
         for (Map.Entry<Integer, String> entry : empNumMap.entrySet()) {
@@ -61,7 +60,6 @@ public class EmployeeDatabase {
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.workExperience = workExperience;
-//        employees = new ArrayList();
     }
 
     public EmployeeDatabase() {
@@ -99,7 +97,7 @@ public class EmployeeDatabase {
         Map<Integer, String> newMap = new HashMap<>();
         for (Object emp : employees) {
             EmployeeDatabase employee = (EmployeeDatabase) emp;
-            if (exp == getWorkExperience()) {
+            if (exp == employee.getWorkExperience()) {
                 newMap.put(employee.getWorkExperience(), employee.getName());
             }
         }
