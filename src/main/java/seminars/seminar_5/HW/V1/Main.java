@@ -1,6 +1,6 @@
-package seminars.seminar_5.HW;
+package seminars.seminar_5.HW.V1;
 
-import java.util.concurrent.locks.Lock;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
 
 /*
@@ -15,20 +15,17 @@ public class Main {
     private static final int NUM_PHILOSOPHERS = 5;
     private static Philosopher[] philosophers = new Philosopher[NUM_PHILOSOPHERS];
     private static Forks[] forks = new Forks[NUM_PHILOSOPHERS];
-    private static Lock[] forkLocks = new ReentrantLock[NUM_PHILOSOPHERS];
+    private static Semaphore semaphore = new Semaphore(NUM_PHILOSOPHERS - 1);
 
     public static void main(String[] args) {
         for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
-            forkLocks[i] = new ReentrantLock();
+            forks[i] = new Forks(i, new ReentrantLock(), new ReentrantLock());
+            philosophers[i] = new Philosopher(i, forks[i], semaphore);
         }
 
         for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
-            forks[i] = new Forks(i, forkLocks[i], forkLocks[(i + 1) % NUM_PHILOSOPHERS]);
-        }
-
-        for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
-            philosophers[i] = new Philosopher(i, forks[i]);
             new Thread(philosophers[i]).start();
         }
     }
 }
+

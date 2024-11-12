@@ -1,5 +1,5 @@
 
-package seminars.seminar_5.HW;
+package seminars.seminar_5.HW.V1;
 
 import java.util.concurrent.locks.Lock;
 

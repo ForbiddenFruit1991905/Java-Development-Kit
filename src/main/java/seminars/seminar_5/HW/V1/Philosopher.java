@@ -1,18 +1,22 @@
-
-package seminars.seminar_5.HW;
+package seminars.seminar_5.HW.V1;
 
 import java.util.Random;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.Semaphore;
 
 public class Philosopher implements Runnable {
 
     private final int idP;
     private Forks fork;
+    private Semaphore semaphore;
 
-    public Philosopher(int idP, Forks fork) {
+    public Philosopher(int idP, Forks fork, Semaphore semaphore) {
         this.idP = idP;
         this.fork = fork;
+        this.semaphore = semaphore;
+    }
+
+    public void setSemaphore(Semaphore semaphore) {
+        this.semaphore = semaphore;
     }
 
     private void think() throws InterruptedException {
@@ -30,25 +34,19 @@ public class Philosopher implements Runnable {
         try {
             for (int i = 0; i < 3; i++) {
                 think();
-                fork.getLeftFork().lock();
 
-                try {
-                    fork.getRightFork().lock();
-                    fork.takeForks();
-                    try {
-                        eat();
-                    } finally {
-                        fork.putDownForks();
-                        fork.getRightFork().unlock();
-                    }
-                } finally {
-                    fork.getLeftFork().unlock();
-                }
+                semaphore.acquire(); // Попытка захвата общего ресурса
+
+                fork.takeForks();
+                eat();
+
+                fork.putDownForks();
+
+                semaphore.release(); // Освобождение общего ресурса
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-
     }
 }
 
