@@ -38,11 +38,11 @@ public class Philosophers implements Runnable {
                         eat();
                     } finally {
                         rightFork.unlock();
-                        System.out.println("Положил правую вилку в руки");
+                        System.out.println("Положил правую вилку на стол");
                     }
                 } finally {
                     leftFork.unlock();
-                    System.out.println("Положил левую вилку в руки");
+                    System.out.println("Положил левую вилку на стол");
                 }
             }
         } catch (InterruptedException e) {
