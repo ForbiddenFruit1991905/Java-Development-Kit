@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 Работы принимаются в виде ссылки на гит репозиторий со всеми ключевыми файлами проекта.
  */
 public class MontiParadox {
+    private static final int numSimulations = 1000;
     public static void main(String[] args) {
         /*
         В контексте симуляции парадокса Монти Холла, `RandomDataGenerator` используется для имитации случайных событий
@@ -30,8 +31,7 @@ public class MontiParadox {
          */
         RandomDataGenerator randomData = new RandomDataGenerator();
         HashMap<Integer, Boolean> results = new HashMap<>();
-
-        int numSimulations = 1000;
+        
         for (int i = 1; i <= numSimulations; i++) {
             // Имитация начала игры
             int winningDoor = randomData.nextInt(1, 3);
@@ -63,6 +63,13 @@ public class MontiParadox {
             }
         }
 
+        System.out.println("Количество побед: " + wins);
+        double winPercentage = Precision.round((double) wins / numSimulations * 100, 2);
+        System.out.println("Процент побед: " + winPercentage + "%");
+        System.out.println("Количество проигрышей: " + (numSimulations - wins));
+        System.out.println("Процент проигрышей: " + Precision.round(100 - winPercentage, 2) + "%");
+        
+//        Пробую научиться пользоваться стримами
 //        Stream<Boolean> valuesStream = results.values().stream();
 //        Stream<Boolean> trueValuesStream = valuesStream.filter(value -> value.booleanValue() == true);
 //        long wins = trueValuesStream.count();
@@ -74,10 +81,6 @@ public class MontiParadox {
         `true` при вызове метода `booleanValue()` у объектов типа `Boolean`.
         - `.count()` - подсчитываем количество элементов в потоке.
          */
-        System.out.println("Количество побед: " + wins);
-        double winPercentage = Precision.round((double) wins / numSimulations * 100, 2);
-        System.out.println("Процент побед: " + winPercentage + "%");
-        System.out.println("Количество проигрышей: " + (numSimulations - wins));
-        System.out.println("Процент проигрышей: " + Precision.round(100 - winPercentage, 2) + "%");
+
     }
 }
