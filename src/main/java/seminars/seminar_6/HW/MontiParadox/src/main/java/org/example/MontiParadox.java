@@ -1,6 +1,7 @@
 package org.example;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
+import org.apache.commons.math3.util.Precision;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,19 +45,17 @@ public class MontiParadox {
 
             // Игрок принимает решение о смене двери
             int newChoice;
-            do {
+            newChoice = randomData.nextInt(1, 3);
+            while (newChoice == playerChoice || newChoice == montyDoor) {
                 newChoice = randomData.nextInt(1, 3);
-            } while (newChoice == playerChoice || newChoice == montyDoor);
+            }
 
             // Проверка выигрыша игрока
             boolean win = newChoice == winningDoor;
             results.put(i, win);
         }
-
         // Вывод итогового счета
-
         Collection<Boolean> values = results.values();
-
         long wins = 0;
         for (boolean value : values) {
             if (value) {
@@ -68,12 +67,17 @@ public class MontiParadox {
 //        Stream<Boolean> trueValuesStream = valuesStream.filter(value -> value.booleanValue() == true);
 //        long wins = trueValuesStream.count();
 //        long wins = results.values().stream().filter(Boolean::booleanValue).count();
-        /*
-        - `results.values()` - получаем коллекцию значений из HashMap `resultsаем поток данных из коллекции значений.
+        /* ---> long wins = results.values().stream().filter(Boolean::booleanValue).count();
+        - `results.values()` - получаем коллекцию значений из HashMap `results`
+        - `.stream()` - создаем поток данных из коллекции значений.
         - `.filter(Boolean::booleanValue)` - фильтруем поток, оставляя только те значения, которые преобразуются в
         `true` при вызове метода `booleanValue()` у объектов типа `Boolean`.
         - `.count()` - подсчитываем количество элементов в потоке.
          */
         System.out.println("Количество побед: " + wins);
+        double winPercentage = Precision.round((double) wins / numSimulations * 100, 2);
+        System.out.println("Процент побед: " + winPercentage + "%");
+        System.out.println("Количество проигрышей: " + (numSimulations - wins));
+        System.out.println("Процент проигрышей: " + Precision.round(100 - winPercentage, 2) + "%");
     }
 }
